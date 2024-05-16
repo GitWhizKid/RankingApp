@@ -1,12 +1,8 @@
-﻿import React, { useState, useEffect } from 'react';
-import MovieImageArr from "./MovieImages.js";
+﻿import { useEffect} from 'react';
 import RankingGrid from "./RankingGrid";
 import ItemCollection from "./ItemCollection";
 
-const RankItems = () => {
-
-    const [items, setItems] = useState([]);
-    const dataType = 1; 
+const RankItems = ({ items, setItems, dataType, imgArr, localStorageKey }) => {
 
     function drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
@@ -32,15 +28,29 @@ const RankItems = () => {
 
 
     useEffect(() => {
+        if (items == null) {
+            getDataFromApi();
+        }
+
+    }, [dataType]);
+
+    function getDataFromApi() {
         fetch(`item/${dataType}`)
             .then((results) => {
                 return results.json();
             })
             .then(data => {
+
                 setItems(data);
             })
+    }
 
-    }, []);
+
+    useEffect(() => {
+        if (items != null) {
+            localStorage.setItem(localStorageKey, JSON.stringify(items));
+        }
+    }, [items])
 
         return (
             (items != null) ?
