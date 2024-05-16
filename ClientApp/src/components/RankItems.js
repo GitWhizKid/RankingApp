@@ -48,7 +48,9 @@ const RankItems = () => {
             {
                     (items.length > 0) ? items.map((item) =>
                     <div className = "unranked">
-                            <img id={`item-${item.id}`} src={MovieImageArr.find(o=>o.id === item.imageId)?.image } />
+                            <img id={`item-${item.id}`} src={MovieImageArr.find(o => o.id === item.imageId)?.image}
+                                style={{ cursor: "pointer" }} draggable="true" onDragStart={drag }
+                            />
                     </div>
                     ) : <div>Loading...</div>      
             }
